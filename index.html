@@ -62,30 +62,31 @@
 
         /* --- ชื่อบนพลุ --- */
         #name-container {
-            position: absolute; top: 12%; left: 50%;
+            position: absolute; top: 15%; left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
             z-index: 10; opacity: 0; pointer-events: none;
             transition: all 1.2s ease-out; width: 100%; text-align: center;
         }
         #name-container.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
+        /* ปรับขนาดตัวหนังสือไม่ให้ใหญ่เกินไปและไม่ล้นจอ */
         .glowing-text {
             font-family: 'Mali', cursive; font-weight: 700;
-            font-size: 2.8rem; color: #fff; 
+            font-size: 2rem; color: #fff; 
             text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
             white-space: nowrap; margin: 0; letter-spacing: 1px;
         }
 
         /* --- ตัวนับเวลา --- */
         #love-timer-container {
-            margin-top: 15px; display: inline-block;
-            background: rgba(255, 255, 255, 0.25); padding: 8px 20px;
+            margin-top: 10px; display: inline-block;
+            background: rgba(255, 255, 255, 0.25); padding: 6px 15px;
             border-radius: 20px; backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.3);
             text-align: center;
         }
-        .timer-label { font-size: 0.9rem; opacity: 0.9; display: block; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-        #love-timer { font-size: 1rem; color: #fff; font-weight: 500; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .timer-label { font-size: 0.8rem; opacity: 0.9; display: block; margin-bottom: 3px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        #love-timer { font-size: 0.85rem; color: #fff; font-weight: 500; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         .timer-highlight { font-weight: 700; color: #ff9ecd; font-variant-numeric: tabular-nums; }
 
         /* --- Puzzle --- */
@@ -93,7 +94,7 @@
             position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
             z-index: 30; opacity: 0; pointer-events: none; transition: opacity 0.8s;
             display: flex; flex-direction: column; align-items: center;
-            width: 85%; max-width: 300px;
+            width: 90%; max-width: 330px;
             background: var(--box-color); color: var(--text-main);
             padding: 20px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
@@ -101,13 +102,15 @@
 
         .puzzle-title { color: var(--text-main); margin-bottom: 15px; font-size: 1.1rem; text-align: center; font-weight: 600;}
         
+        /* ปรับขนาดบอร์ดจิ๊กซอว์เป็นแนวนอน (กว้าง 280px สูง 210px อัตราส่วน 4:3) */
         #puzzle-board {
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-            gap: 2px; width: 240px; height: 300px; 
+            gap: 2px; width: 280px; height: 210px; 
             background: #eee; border-radius: 10px; border: 2px solid #ddd;
         }
+        /* ปรับขนาดภาพในชิ้นส่วนให้ล้อตามแนวนอน */
         .puzzle-piece {
-            background-image: url('photo1.jpg'); background-size: 240px 300px;
+            background-image: url('photo1.jpg'); background-size: 280px 210px;
             cursor: pointer; border-radius: 4px; transition: transform 0.2s;
         }
         .puzzle-piece.selected {
@@ -226,11 +229,11 @@
     </div>
 
     <div id="content-box">
-        <div class="title-msg">Happy Birthday 2026 🎉</div>
+        <div class="title-msg">Happy Birthday</div>
         
         <div class="body-msg">
-สุขสันต์วันเกิด คนสวยของผม
-<span class="beating-heart" style="font-size: 1.2em;">รักนะคะ❤️😘</span>
+สุขสันต์วันเกิด
+<span class="beating-heart" style="font-size: 1.2em;">คนสวยของผม</span>
         </div>
         
         <div class="photo-frame" onclick="nextPhoto()">
@@ -238,7 +241,7 @@
         </div>
         <div class="click-hint">แตะที่รูปเพื่อดูรูปอื่นๆ 📸</div>
 
-        <button class="love-note-btn" onclick="showNextNote()">💌 🐻ลองกดดูครับ ไม่สุ่ม</button>
+        <button class="love-note-btn" onclick="showNextNote()">🐻ลองกดดูครับ</button>
     </div>
 
     <div id="note-popup">
@@ -276,7 +279,7 @@
         // --- ระบบข้อความอวยพร 1-5 แบบเรียงลำดับ ไม่สุ่มเด็ดขาด ---
         const loveNotes = [
             "ขอให้ทุกๆวันเป็นวันที่ดีของเธอ",
-            "ขออย่าให้เธอได้เจ็บไข้ได้ป่วยหรือว่าทุกข์ใจ\nขอให้เธอมีแต่ความสุข",
+            "ขออย่าให้เธอได้เจ็บไข้ได้ป่วย\nหรือว่าทุกข์ใจ\nขอให้เธอมีแต่ความสุข",
             "ขอให้เธอมีแต่ความสดใส",
             "ขอให้ทุกเรื่องราวมีแต่รอยยิ้ม",
             "ขอให้ ข้อ1ถึง4 เกิดขึ้นและเป็นจริงกับเทอ"
@@ -320,7 +323,8 @@
             for (let i = 0; i < rows * cols; i++) {
                 const piece = document.createElement('div'); piece.className = 'puzzle-piece';
                 const row = Math.floor(i / cols); const col = i % cols;
-                piece.style.backgroundPosition = `-${col * (240/3)}px -${row * (300/3)}px`;
+                /* แก้ไข: ปรับค่าตำแหน่งการตัดรูป ให้สมมาตรกับขนาดบอร์ดแนวนอนใหม่ (280px / 3 และ 210px / 3) */
+                piece.style.backgroundPosition = `-${col * (280/3)}px -${row * (210/3)}px`;
                 piece.dataset.index = i; piece.onclick = () => onPieceClick(piece); pieces.push(piece);
             }
             shuffle(pieces); pieces.forEach(p => puzzleBoard.appendChild(p));
@@ -410,8 +414,6 @@
         function loop() {
             requestAnimationFrame(loop);
             ctx.globalCompositeOperation = 'destination-out'; 
-            /* แก้ไข: ปรับค่าความลบ (Alpha) เป็น 0.35 เพื่อให้ Canvas เคลียร์ตัวเองแบบโปร่งใส 
-               ช่วยให้มองทะลุเห็นรูป photo4.jpg ด้านหลังได้ชัดเจนขึ้น ไม่มืดดำสนิทครับ */
             ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'; ctx.fillRect(0, 0, cw, ch);
             ctx.globalCompositeOperation = 'lighter';
             let i = fireworks.length; while(i--) { fireworks[i].draw(); fireworks[i].update(i); }
