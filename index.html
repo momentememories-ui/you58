@@ -36,9 +36,19 @@
         /* --- หน้าจอเริ่ม --- */
         #start-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
+            /* แก้ไข: เปลี่ยนจากพื้นหลังสีดำ (#000) ให้เป็นรูป photo4.jpg ด้วย */
+            background: url('photo4.jpg') no-repeat center center fixed;
+            background-size: cover;
             z-index: 999; display: flex; justify-content: center; align-items: center; 
             flex-direction: column; cursor: pointer; transition: opacity 0.8s ease;
+        }
+        
+        /* เพิ่ม Overlay สีเข้มจางๆ ให้หน้าแรกเพื่อให้ปุ่มและข้อความอ่านง่ายขึ้น */
+        #start-screen::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
         }
         
         .start-btn {
@@ -69,13 +79,13 @@
         /* --- ตัวนับเวลา --- */
         #love-timer-container {
             margin-top: 15px; display: inline-block;
-            background: rgba(255, 255, 255, 0.15); padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.25); padding: 8px 20px;
             border-radius: 20px; backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             text-align: center;
         }
-        .timer-label { font-size: 0.9rem; opacity: 0.9; display: block; margin-bottom: 5px; }
-        #love-timer { font-size: 1rem; color: #fff; font-weight: 500; letter-spacing: 0.5px; }
+        .timer-label { font-size: 0.9rem; opacity: 0.9; display: block; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        #love-timer { font-size: 1rem; color: #fff; font-weight: 500; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         .timer-highlight { font-weight: 700; color: #ff9ecd; font-variant-numeric: tabular-nums; }
 
         /* --- Puzzle --- */
@@ -192,7 +202,7 @@
     
     <div id="start-screen" onclick="startShow()">
         <div class="start-btn">แตะเพื่อเปิดของขวัญ 🎁</div>
-        <p style="color: #ccc; font-size:0.9rem; margin-top: 20px; font-weight: 300;">(เปิดเสียงด้วยนะ 🎵)</p>
+        <p style="color: #fff; font-size:0.9rem; margin-top: 20px; font-weight: 400; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">(เปิดเสียงด้วยนะ 🎵)</p>
     </div>
 
     <div id="flash-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:50;opacity:0;pointer-events:none;transition:opacity 0.8s;"></div>
@@ -272,15 +282,13 @@
             "ขอให้ ข้อ1ถึง4 เกิดขึ้นและเป็นจริงกับเทอ"
         ];
 
-        let currentNoteIndex = 0; // ตัวแปรเก็บลำดับข้อความปัจจุบัน
+        let currentNoteIndex = 0; 
 
         function showNextNote() {
             const popup = document.getElementById('note-popup');
-            // แสดงข้อความตามลำดับ
             document.getElementById('note-content').innerText = loveNotes[currentNoteIndex];
             popup.classList.add('show');
             
-            // เพิ่มลำดับไปตัวถัดไป ถ้าเกินจำนวนให้วนกลับไปเริ่ม 0
             currentNoteIndex = (currentNoteIndex + 1) % loveNotes.length;
         }
 
@@ -402,8 +410,9 @@
         function loop() {
             requestAnimationFrame(loop);
             ctx.globalCompositeOperation = 'destination-out'; 
-            // เปลี่ยนส่วนเคลียร์ Canvas เป็นแบบโปร่งใสเล็กน้อยเพื่อให้มองเห็นรูป photo4.jpg ด้านหลัง
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; ctx.fillRect(0, 0, cw, ch);
+            /* แก้ไข: ปรับค่าความลบ (Alpha) เป็น 0.35 เพื่อให้ Canvas เคลียร์ตัวเองแบบโปร่งใส 
+               ช่วยให้มองทะลุเห็นรูป photo4.jpg ด้านหลังได้ชัดเจนขึ้น ไม่มืดดำสนิทครับ */
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'; ctx.fillRect(0, 0, cw, ch);
             ctx.globalCompositeOperation = 'lighter';
             let i = fireworks.length; while(i--) { fireworks[i].draw(); fireworks[i].update(i); }
             let j = particles.length; while(j--) { particles[j].draw(); particles[j].update(j); }
