@@ -262,13 +262,26 @@
                 return;
             }
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
+            // คำนวณจำนวนปี และหักลบจำนวนปีที่เต็มออกไปเพื่อคิดจำนวนวันต่อ
+            let years = now.getFullYear() - startDate.getFullYear();
+            let birthDateThisYear = new Date(startDate.getTime());
+            birthDateThisYear.setFullYear(now.getFullYear());
+
+            if (now < birthDateThisYear) {
+                years--;
+                birthDateThisYear.setFullYear(now.getFullYear() - 1);
+            }
+
+            const diffRemaining = now - birthDateThisYear;
+
+            const days = Math.floor(diffRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffRemaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diffRemaining / (1000 * 60 * 60) % 60));
+            const seconds = Math.floor((diffRemaining / 1000) % 60);
 
             document.getElementById('love-timer').innerHTML = 
-                `<span class="timer-highlight">${days}</span> วัน 
+                `<span class="timer-highlight">${years}</span> ปี 
+                 <span class="timer-highlight">${days}</span> วัน 
                  <span class="timer-highlight">${hours}</span> ชม. 
                  <span class="timer-highlight">${minutes}</span> นาที
                  <span class="timer-highlight">${seconds}</span> วินาที`;
@@ -282,7 +295,7 @@
             "ขออย่าให้เธอได้เจ็บไข้ได้ป่วย\nหรือว่าทุกข์ใจ\nขอให้เธอมีแต่ความสุข",
             "ขอให้เธอมีแต่ความสดใส",
             "ขอให้ทุกเรื่องราวมีแต่รอยยิ้ม",
-            "ขอให้ ข้อ1ถึง4 เกิดขึ้นและเป็นจริงกับเทอ"
+            "ขอให้ ข้อ1ถึง4\nเกิดขึ้นและเป็นจริงกับเทอ"
         ];
 
         let currentNoteIndex = 0; 
